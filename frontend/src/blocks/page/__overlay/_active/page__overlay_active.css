@@ -1,0 +1,7 @@
+.page__overlay_active {
+  display: flex;
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0.3s, opacity 0.3s linear;
+}
+

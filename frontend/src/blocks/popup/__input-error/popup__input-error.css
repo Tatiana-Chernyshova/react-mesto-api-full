@@ -1,0 +1,19 @@
+.popup__input-error {
+  display: none;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 15px;
+  color: #FF0000;
+  align-self: flex-start;
+  /* margin-bottom: 13px; */
+  margin-top: -25px;
+  margin-bottom: 10px;
+
+
+}
+
+.popup__input-error:last-of-type {
+  margin-bottom: 31px;
+}
+

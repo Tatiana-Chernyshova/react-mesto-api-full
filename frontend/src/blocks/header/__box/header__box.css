@@ -1,0 +1,14 @@
+.header__box {
+  display: flex;
+  padding-top: 6px;
+  font-style: normal;
+  font-size: 18px;
+  line-height: 22px;
+}
+
+@media screen and (max-width: 320px) {
+  .header__box {
+    font-size: 14px;
+    line-height: 17px;
+  }
+}

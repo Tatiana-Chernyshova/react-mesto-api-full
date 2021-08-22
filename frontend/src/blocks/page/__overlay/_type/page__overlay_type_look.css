@@ -1,0 +1,9 @@
+.page__overlay_type_look {
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+@media screen and (max-width: 798px) {
+  .page__overlay_type_look {
+    padding-top: 0;
+  }
+}
