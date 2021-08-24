@@ -1,35 +1,29 @@
+export const BASE_URL = 'https://api.mrld.nomoredomains.rocks/';
+
 class Api {
-  constructor({ address, token }) {
+  constructor({ address, headers }) {
     // тело конструктора
     this._address = address;
-    this._token = token;
+    this._headers = headers;
   }
 
   getCards() {
     return fetch(`${this._address}/cards`, {
-      headers: {
-        authorization: this._token,
-      }})
+      headers: this._headers})
     .then(this._checkResponse)
   }
 
   createCards(data) {
     return fetch(`${this._address}/cards`, {
       method: 'POST',
-      headers: {
-          authorization: this._token,
-          'Content-Type': 'application/json'
-      },
+      headers: this._headers,
     })
     .then(this._checkResponse)
   }
 
   getUserData() {
     return fetch(`${this._address}/users/me`, {
-      headers: {
-          authorization: this._token,
-          'Content-Type': 'application/json'
-      },
+      headers: this._headers,
     })
     .then(this._checkResponse)
   }
@@ -37,10 +31,7 @@ class Api {
   setUserData(data) {
     return fetch(`${this._address}/users/me`, {
       method: 'PATCH',
-      headers: {
-          authorization: this._token,
-          'Content-Type': 'application/json'
-      },
+      headers: this._headers,
       body: JSON.stringify({
         name: data.name,
         about: data.about
@@ -52,10 +43,7 @@ class Api {
   editUserAvatar(link) {
     return fetch(`${this._address}/users/me/avatar`, {
       method: 'PATCH',
-      headers: {
-          authorization: this._token,
-          'Content-Type': 'application/json'
-      },
+      headers: this._headers,
       body: JSON.stringify({
         avatar: link.avatar
       })
@@ -66,10 +54,7 @@ class Api {
   addCard(data) {
     return fetch(`${this._address}/cards`, {
       method: 'POST',
-      headers: {
-        authorization: this._token,
-        'Content-Type': 'application/json'
-      },
+      headers: this._headers,
       body: JSON.stringify({
         name: data.name,
         link: data.link
@@ -81,10 +66,6 @@ class Api {
   deleteCard(id) {
     return fetch(`${this._address}/cards/${id}`, {
       method: 'DELETE',
-      headers: {
-        authorization: this._token,
-        // 'Content-Type': 'application/json'
-      },
     })
     .then(this._checkResponse)
   }
@@ -93,54 +74,19 @@ class Api {
     if(isLiked) {
       return fetch(`${this._address}/cards/likes/${id}`, {
         method: 'PUT',
-        headers: {
-          authorization: this._token,
-          'Content-Type': 'application/json'
-        },
+        headers: this._headers,
       })
       .then(this._checkResponse)
     } else {
       return fetch(`${this._address}/cards/likes/${id}`, {
         method: 'DELETE',
-        headers: {
-          authorization: this._token,
-          'Content-Type': 'application/json'
-        },
+        headers: this._headers,
       })
       .then(this._checkResponse)
     }
 
   }
-  // changeLikeCardStatus(id, isLiked) {
-  //   if(isLiked) {
-  //     this._putLike(id);
-  //   } else {
-  //     this._deleteLike(id);
-  //   }
-  // }
-
-  // putLike(id) {
-  //   return fetch(`${this._address}/cards/likes/${id}`, {
-  //     method: 'PUT',
-  //     headers: {
-  //       authorization: this._token,
-  //       'Content-Type': 'application/json'
-  //     },
-  //   })
-  //   .then(this._checkResponse)
-  // }
-  
-  // deleteLike(id) {
-  //   return fetch(`${this._address}/cards/likes/${id}`, {
-  //     method: 'DELETE',
-  //     headers: {
-  //       authorization: this._token,
-  //       'Content-Type': 'application/json'
-  //     },
-  //   })
-  //   .then(this._checkResponse)
-  // }
-  
+    
   _checkResponse(res) {
       if (res.ok) {
         return res.json();
@@ -151,8 +97,10 @@ class Api {
 }
 
 const api = new Api({
-  address: 'https://mesto.nomoreparties.co/v1/cohort-24',
-  token: '36ca9ef1-bd1d-492c-84aa-4de20805470a'
+  address: BASE_URL,
+  headers: {
+    'Content-Type': 'application/json'
+  },
 })
 
 export default api;
