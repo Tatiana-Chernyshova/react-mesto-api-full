@@ -8,6 +8,7 @@ const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const rootRouter = require('./routes/index');
 const errorHandler = require('./middlewares/error-handler');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
@@ -27,7 +28,16 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(helmet());
 app.use(limiter);
+app.use(requestLogger);
+
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
+
 app.use('/', rootRouter);
+app.use(errorLogger);
 app.use(errors());
 app.use(errorHandler);
 
