@@ -22,7 +22,7 @@ const corsOptions = {
     'http://mrld.nomoredomains.rocks/',
     'localhost:3000',
   ],
-  // credentials: true,
+  credentials: true,
 };
 
 require('dotenv').config();
