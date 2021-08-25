@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://api.mrld.nomoredomains.rocks/';
+export const BASE_URL = 'https://api.mrld.nomoredomains.rocks';
 
 class Api {
   constructor({ address, headers }) {
