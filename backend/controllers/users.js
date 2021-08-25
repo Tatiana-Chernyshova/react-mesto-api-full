@@ -90,9 +90,13 @@ const updateAvatar = (req, res, next) => {
     });
 };
 
+
 const login = (req, res, next) => {
   const { email, password } = req.body;
 
+  // if (!email || !password) {
+  //   throw new ValidationError('Введите e-mail и пароль');
+  // }
   User.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {
@@ -103,25 +107,61 @@ const login = (req, res, next) => {
           if (!matched) {
             throw new Error401('Неправильные почта или пароль');
           }
-          const token = jwt.sign(
-            { _id: user._id },
-            NODE_ENV === 'production' ? JWT_SECRET
-              : 'some-secret-key',
-            { expiresIn: '7d' },
-          );
-          // res.cookie('jwt', token, {
-          //   maxAge: 3600000 * 24 * 7,
-          //   httpOnly: true,
-          //   sameSite: true,
-          // })
-          res.send({ token });
-            .status(201).send({
-              message: 'Аутентификация прошла успешно',
-            });
+          return user;
         });
+    })
+    .then((user) => {
+      // const token = jwt.sign(
+      //   { _id: user._id },
+      //   NODE_ENV === 'production' ? JWT_SECRET : JWT_SECRET_DEV,
+      //   { expiresIn: '7d' },
+      // );
+      const token = jwt.sign(
+        { _id: user._id },
+        NODE_ENV === 'production' ? JWT_SECRET
+          : 'some-secret-key',
+        { expiresIn: '7d' },
+      );
+      return res.send({ token });
     })
     .catch(next);
 };
+
+
+
+// const login = (req, res, next) => {
+//   const { email, password } = req.body;
+
+//   User.findOne({ email }).select('+password')
+//     .then((user) => {
+//       if (!user) {
+//         throw new Error401('Неправильные почта или пароль');
+//       }
+//       return bcrypt.compare(password, user.password)
+//         .then((matched) => {
+//           if (!matched) {
+//             throw new Error401('Неправильные почта или пароль');
+//           }
+//           return user;
+//           const token = jwt.sign(
+//             { _id: user._id },
+//             NODE_ENV === 'production' ? JWT_SECRET
+//               : 'some-secret-key',
+//             { expiresIn: '7d' },
+//           );
+//           // res.cookie('jwt', token, {
+//           //   maxAge: 3600000 * 24 * 7,
+//           //   httpOnly: true,
+//           //   sameSite: true,
+//           // })
+//           res.send({ token });
+//             .status(201).send({
+//               message: 'Аутентификация прошла успешно',
+//             });
+//         });
+//     })
+//     .catch(next);
+// };
 
 const aboutUser = (req, res, next) => {
   const { _id } = req.user;
