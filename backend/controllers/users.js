@@ -94,9 +94,6 @@ const updateAvatar = (req, res, next) => {
 const login = (req, res, next) => {
   const { email, password } = req.body;
 
-  // if (!email || !password) {
-  //   throw new ValidationError('Введите e-mail и пароль');
-  // }
   User.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {
@@ -111,17 +108,18 @@ const login = (req, res, next) => {
         });
     })
     .then((user) => {
-      // const token = jwt.sign(
-      //   { _id: user._id },
-      //   NODE_ENV === 'production' ? JWT_SECRET : JWT_SECRET_DEV,
-      //   { expiresIn: '7d' },
-      // );
+
       const token = jwt.sign(
         { _id: user._id },
         NODE_ENV === 'production' ? JWT_SECRET
           : 'some-secret-key',
         { expiresIn: '7d' },
       );
+//       // res.cookie('jwt', token, {
+//        //   maxAge: 3600000 * 24 * 7,
+//        //   httpOnly: true,
+//        //   sameSite: true,
+//        // })
       return res.send({ token });
     })
     .catch(next);
