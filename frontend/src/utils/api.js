@@ -100,7 +100,7 @@ class Api {
       if (res.ok) {
         return res.json();
       }
-      return Promise.reject(`Ошибка: ${res.status}`);
+      return Promise.reject(`ОшибкаAPIII: ${res.status}`);
   }
 
 }
@@ -109,7 +109,7 @@ const api = new Api({
   address: BASE_URL,
   headers: {
     'Content-Type': 'application/json',
-    'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+    'Authorization': `Bearer ${localStorage.getItem('token')}`,
   },
 })
 

@@ -5,6 +5,10 @@ import CurrentUserContext from "../contexts/CurrentUserContext";
 function Main({ cards, onEditAvatar, onEditProfile, onAddPlace, onCardClick, onCardLike, onCardDelete }) {
   const currentUser = React.useContext(CurrentUserContext);
 
+  // React.useEffect(() => {
+  //   avatarRef.current.value = "";
+  // }); 
+// console.log(currentUser.data);
   return (
     <main className="content page__content">
       <section className="profile content__profile">
@@ -37,7 +41,7 @@ function Main({ cards, onEditAvatar, onEditProfile, onAddPlace, onCardClick, onC
           onClick={onAddPlace}
         ></button>
       </section>
-      <section className="elements content__elements">
+      {/* <section className="elements content__elements">
         {cards.map((obj) => (
           <Card 
           card={obj} 
@@ -47,7 +51,7 @@ function Main({ cards, onEditAvatar, onEditProfile, onAddPlace, onCardClick, onC
           key={obj._id}
           />
         ) )}
-      </section>
+      </section> */}
     </main>
   );
 }

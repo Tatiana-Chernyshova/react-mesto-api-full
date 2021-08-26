@@ -148,16 +148,19 @@ function App() {
         })
   }
 
-  function checkToken(data) {
+  function checkToken() {
     const token = localStorage.getItem('token')
+
     if (token) {
       auth.getToken(token)
         .then(res => {
-          setCurrentUserEmail(res.data.email)
+          setCurrentUserEmail(res.email)
           setLoggedIn(true)
+          // console.log(res);
         })
         .catch(e => { console.log(e) }) 
     }
+    // console.log(loggedIn);
   }
 
   function handleSignOut() {
@@ -167,24 +170,32 @@ function App() {
     history.push('/signin')
   }
 
+  // React.useEffect(() => {
+  //   Promise.all([api.getUserData(), api.getCards()])
+  //     .then(([userData, cardsData]) => {
+  //       setCurrentUser(userData);
+  //       setCards(cardsData);
+  //     })
+  //     .catch(e => { console.log(e) })
+  // }, [])
+
   React.useEffect(() => {
-    Promise.all([api.getUserData(), api.getCards()])
+    if (loggedIn) {
+      history.push('/')
+      Promise.all([api.getUserData(), api.getCards()])
       .then(([userData, cardsData]) => {
         setCurrentUser(userData);
         setCards(cardsData);
       })
       .catch(e => { console.log(e) })
-  }, [])
-
-  React.useEffect(() => {
-    if (loggedIn) {
-      history.push('/')
     }
+    
   }, [loggedIn, history])
+// }, [loggedIn])
 
   React.useEffect(() => { 
-    checkToken();
-  }, []) 
+    checkToken();  
+  }) 
 
   return (
     <CurrentUserContext.Provider value={currentUser}>

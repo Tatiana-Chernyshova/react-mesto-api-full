@@ -5,7 +5,7 @@ export const register = (password, email) => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
     },
     body: JSON.stringify({
       "password": password,
@@ -19,19 +19,19 @@ export const login = (password, email) => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+ //     'Authorization': `Bearer ${localStorage.getItem('token')}`,
     },
     body: JSON.stringify({password, email})
   })
   .then(result => checkResponse(result));
 };
 
-export const getToken = (jwt) => {
+export const getToken = (token) => {
   return fetch(`${BASE_URL}/users/me`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+      'authorization': `Bearer ${token}`,
     }
   })
   .then(result => checkResponse(result));
@@ -39,7 +39,10 @@ export const getToken = (jwt) => {
 
 function checkResponse(res) {
   if (res.ok) {
+    // const { authorization } = res.headers;
+    // console.log('res.okAUTH');
+    // console.log(authorization);
     return res.json();
   }
-  return Promise.reject(`Ошибка: ${res.status}`);
+  return Promise.reject(`ОшибкаAUTH: ${res.status}`);
 }
