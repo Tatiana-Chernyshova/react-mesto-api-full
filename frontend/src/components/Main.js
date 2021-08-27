@@ -18,7 +18,7 @@ function Main({ cards, onEditAvatar, onEditProfile, onAddPlace, onCardClick, onC
             src={currentUser.avatar} 
             // currentUser.data? currentUser.data.avatar : 
           />
-          <div className={ console.log(currentUser)}></div>
+          {/* <div className={ console.log(currentUser)}></div> */}
           <button
             className="profile__button profile__avatar-edit"
             onClick={onEditAvatar}
@@ -26,8 +26,8 @@ function Main({ cards, onEditAvatar, onEditProfile, onAddPlace, onCardClick, onC
         </div>
         <div className="profile__info">
           <div className="profile__text">
-            <h1 className="profile__name">{currentUser.data && currentUser.data.name}</h1>
-            <p className="profile__about">{currentUser.data && currentUser.data.about}</p>
+            <h1 className="profile__name">{currentUser.name}</h1>
+            <p className="profile__about">{currentUser.about}</p>
           </div>
           <button
             className="profile__button profile__button_edit"
