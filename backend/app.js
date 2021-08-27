@@ -16,18 +16,18 @@ const limiter = rateLimit({
   max: 100, // limit each IP to 100 requests per windowMs
 });
 
-// const corsOptions = {
-//   origin: [
-//     'https://mrld.nomoredomains.rocks',
-//     'http://mrld.nomoredomains.rocks',
-//     'localhost:3000',
-//   ],
-//   credentials: true,
-// };
+const corsOptions = {
+  origin: [
+    'https://mrld.nomoredomains.rocks',
+    'http://mrld.nomoredomains.rocks',
+    'localhost:3000',
+    'http://192.168.1.177:3000',
+    'http://localhost:3000',
+  ],
+  credentials: true,
+};
 
-// var express = require('express')
-// var cors = require('cors')
-// var app = express()
+
 
 
 
@@ -50,8 +50,8 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(helmet());
 app.use(limiter);
-app.use(cors());
-// app.use(cors(corsOptions));
+// app.use(cors());
+app.use(cors(corsOptions));
 app.use(requestLogger);
 
 app.get('/crash-test', () => {
@@ -66,6 +66,4 @@ app.use(errors());
 app.use(errorHandler);
 
 app.listen(3000);
-// app.listen(3000, function () {
-//   console.log('CORS-enabled web server listening on port 80')
-// })
+

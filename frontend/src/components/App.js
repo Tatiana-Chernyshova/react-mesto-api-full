@@ -95,6 +95,7 @@ function App() {
   }
 
   function handleCardDelete(card) {
+    console.log(card._id)
     api.deleteCard(card._id)
       .then(() => {
         const newCards = cards.filter(c => c._id !== card._id);
@@ -185,7 +186,8 @@ function App() {
       Promise.all([api.getUserData(), api.getCards()])
       .then(([userData, cardsData]) => {
         setCurrentUser(userData);
-        setCards(cardsData);
+        setCards(cardsData.data.reverse());
+        // console.log(cardsData.data)
       })
       .catch(e => { console.log(e) })
     }
@@ -194,7 +196,8 @@ function App() {
 // }, [loggedIn])
 
   React.useEffect(() => { 
-    checkToken();  
+    checkToken();
+    // console.log(cards)
   }) 
 
   return (

@@ -16,7 +16,9 @@ function Main({ cards, onEditAvatar, onEditProfile, onAddPlace, onCardClick, onC
           <img
             alt="" className="profile__avatar"
             src={currentUser.avatar} 
+            // currentUser.data? currentUser.data.avatar : 
           />
+          <div className={ console.log(currentUser)}></div>
           <button
             className="profile__button profile__avatar-edit"
             onClick={onEditAvatar}
@@ -24,8 +26,8 @@ function Main({ cards, onEditAvatar, onEditProfile, onAddPlace, onCardClick, onC
         </div>
         <div className="profile__info">
           <div className="profile__text">
-            <h1 className="profile__name">{currentUser.name}</h1>
-            <p className="profile__about">{currentUser.about}</p>
+            <h1 className="profile__name">{currentUser.data && currentUser.data.name}</h1>
+            <p className="profile__about">{currentUser.data && currentUser.data.about}</p>
           </div>
           <button
             className="profile__button profile__button_edit"
@@ -41,7 +43,7 @@ function Main({ cards, onEditAvatar, onEditProfile, onAddPlace, onCardClick, onC
           onClick={onAddPlace}
         ></button>
       </section>
-      {/* <section className="elements content__elements">
+      <section className="elements content__elements">
         {cards.map((obj) => (
           <Card 
           card={obj} 
@@ -51,7 +53,7 @@ function Main({ cards, onEditAvatar, onEditProfile, onAddPlace, onCardClick, onC
           key={obj._id}
           />
         ) )}
-      </section> */}
+      </section>
     </main>
   );
 }

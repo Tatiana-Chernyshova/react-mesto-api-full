@@ -72,6 +72,7 @@ class Api {
   deleteCard(id) {
     return fetch(`${this._address}/cards/${id}`, {
       method: 'DELETE',
+      headers: this._headers,
       credentials: 'include',
     })
     .then(this._checkResponse)
