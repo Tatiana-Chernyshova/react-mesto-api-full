@@ -5,10 +5,6 @@ import CurrentUserContext from "../contexts/CurrentUserContext";
 function Main({ cards, onEditAvatar, onEditProfile, onAddPlace, onCardClick, onCardLike, onCardDelete }) {
   const currentUser = React.useContext(CurrentUserContext);
 
-  // React.useEffect(() => {
-  //   avatarRef.current.value = "";
-  // }); 
-// console.log(currentUser.data);
   return (
     <main className="content page__content">
       <section className="profile content__profile">
@@ -16,9 +12,7 @@ function Main({ cards, onEditAvatar, onEditProfile, onAddPlace, onCardClick, onC
           <img
             alt="" className="profile__avatar"
             src={currentUser.avatar} 
-            // currentUser.data? currentUser.data.avatar : 
           />
-          {/* <div className={ console.log(currentUser)}></div> */}
           <button
             className="profile__button profile__avatar-edit"
             onClick={onEditAvatar}

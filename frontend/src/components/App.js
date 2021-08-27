@@ -88,10 +88,8 @@ function App() {
     // Снова проверяем, есть ли уже лайк на этой карточке
     const isLiked = card.likes.some(i => i === currentUser._id);
     // Отправляем запрос в API и получаем обновлённые данные карточки
-    // console.log(card._id)
     api.changeLikeCardStatus(card._id, !isLiked)
       .then(newCard => {
-        // console.log(newCard)
         setCards(state => state.map(c => c._id === card._id ? newCard : c));
     })
       .catch(e => { console.log(e) });
@@ -160,11 +158,9 @@ function App() {
         .then(res => {
           setCurrentUserEmail(res.email)
           setLoggedIn(true)
-          // console.log(res);
         })
         .catch(e => { console.log(e) }) 
     }
-    // console.log(loggedIn);
   }
 
   function handleSignOut() {
@@ -174,15 +170,6 @@ function App() {
     history.push('/signin')
   }
 
-  // React.useEffect(() => {
-  //   Promise.all([api.getUserData(), api.getCards()])
-  //     .then(([userData, cardsData]) => {
-  //       setCurrentUser(userData);
-  //       setCards(cardsData);
-  //     })
-  //     .catch(e => { console.log(e) })
-  // }, [])
-
   React.useEffect(() => {
     if (loggedIn) {
       history.push('/')
@@ -190,17 +177,14 @@ function App() {
       .then(([userData, cardsData]) => {
         setCurrentUser(userData);
         setCards(cardsData.reverse());
-        // console.log(cardsData.data)
       })
       .catch(e => { console.log(e) })
     }
     
   }, [loggedIn, history])
-// }, [loggedIn])
 
   React.useEffect(() => { 
     checkToken();
-    // console.log(cards)
   }) 
 
   return (
