@@ -31,6 +31,7 @@ function App() {
   const [isInfoPopupOpen, setInfoPopupOpen] = React.useState(false);
   const [isInfoTooltip, setInfoTooltip] = React.useState({message: '', image: ''});
   const [currentUserEmail, setCurrentUserEmail] = React.useState('');
+  const [token, setToken] = React.useState('');
 
   function handleIsEditProfilePopupOpen() {
     setIsEditProfilePopupOpen(true);
@@ -86,10 +87,11 @@ function App() {
 
   function handleCardLike(card) {
     // Снова проверяем, есть ли уже лайк на этой карточке
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    const isLiked = card.likes.some(i => i === currentUser._id);
     // Отправляем запрос в API и получаем обновлённые данные карточки
     api.changeLikeCardStatus(card._id, !isLiked)
-      .then(newCard => {setCards(state => state.map(c => c._id === card._id ? newCard : c));
+      .then(newCard => {
+        setCards(state => state.map(c => c._id === card._id ? newCard : c));
     })
       .catch(e => { console.log(e) });
   }
@@ -127,8 +129,8 @@ function App() {
         })
   }
 
-  function handleLogin(password, email) {
-    auth.login(password, email)
+  function handleLogin(password, email, token) {
+    auth.login(password, email, token)
         .then((res) => {
           if (res) {
             localStorage.setItem('token', res.token)
@@ -148,12 +150,14 @@ function App() {
         })
   }
 
-  function checkToken(data) {
-    const token = localStorage.getItem('token')
+  function checkToken() {
+    setToken(localStorage.getItem('token'));
+
     if (token) {
+      // setToken(token);
       auth.getToken(token)
         .then(res => {
-          setCurrentUserEmail(res.data.email)
+          setCurrentUserEmail(res.email)
           setLoggedIn(true)
         })
         .catch(e => { console.log(e) }) 
@@ -164,27 +168,26 @@ function App() {
     localStorage.removeItem('token')
     setLoggedIn(false);
     setCurrentUserEmail('');
-    history.push('/signin')
+    history.push('/signin');
+    setToken("");
   }
-
-  React.useEffect(() => {
-    Promise.all([api.getUserData(), api.getCards()])
-      .then(([userData, cardsData]) => {
-        setCurrentUser(userData);
-        setCards(cardsData);
-      })
-      .catch(e => { console.log(e) })
-  }, [])
 
   React.useEffect(() => {
     if (loggedIn) {
       history.push('/')
+      Promise.all([api.getUserData(), api.getCards()])
+      .then(([userData, cardsData]) => {
+        setCurrentUser(userData);
+        setCards(cardsData.reverse());
+      })
+      .catch(e => { console.log(e) })
     }
+    
   }, [loggedIn, history])
 
   React.useEffect(() => { 
     checkToken();
-  }, []) 
+  }) 
 
   return (
     <CurrentUserContext.Provider value={currentUser}>

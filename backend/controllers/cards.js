@@ -4,14 +4,14 @@ const Error403 = require('../errors/error403');
 const Error404 = require('../errors/error404');
 
 const getCards = (req, res, next) => Card.find({})
-  .then((cards) => res.status(200).send({ data: cards }))
+  .then((cards) => res.status(200).send(cards))
   .catch((err) => next(err));
 
 const createCard = (req, res, next) => {
   const { name, link } = req.body; // получим из объекта запроса имя и описание пользователя
   const { _id } = req.user;
   return Card.create({ name, link, owner: _id })
-    .then((card) => res.send({ data: card }))
+    .then((card) => res.send(card))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new Error400('Переданы некорректные данные при создании карточки'));
@@ -49,7 +49,7 @@ const putLike = (req, res, next) => Card.findByIdAndUpdate(
   .orFail(() => {
     throw new Error404('Запрашиваемая карточка не найдена');
   })
-  .then((card) => res.send({ data: card }))
+  .then((card) => res.send(card))
   .catch((err) => {
     if (err.name === 'CastError') {
       next(new Error400('Переданы некорректные данные для постановки лайка'));
@@ -65,7 +65,7 @@ const deleteLike = (req, res, next) => Card.findByIdAndUpdate(
   .orFail(() => {
     throw new Error404('Запрашиваемая карточка не найдена');
   })
-  .then((card) => res.send({ data: card }))
+  .then((card) => res.send(card))
   .catch((err) => {
     if (err.name === 'CastError') {
       next(new Error400('Переданы некорректные данные для снятия лайка'));
