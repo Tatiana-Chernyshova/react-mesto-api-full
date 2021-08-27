@@ -10,7 +10,7 @@ require('dotenv').config();
 const { NODE_ENV, JWT_SECRET } = process.env;
 
 const getUsers = (req, res, next) => User.find({})
-  .then((users) => res.status(200).send({ data: users }))
+  .then((users) => res.status(200).send(users))
   .catch((err) => next(err));
 
 const getUser = (req, res, next) => {
@@ -18,7 +18,7 @@ const getUser = (req, res, next) => {
     .orFail(() => {
       throw new Error404('Запрашиваемый пользователь не найден');
     })
-    .then((user) => res.status(200).send({ data: user }))
+    .then((user) => res.status(200).send(user))
     .catch((err) => {
       if (err.name === 'CastError') {
         next(new Error400('Переданы некорректные данные'));
@@ -42,7 +42,7 @@ const createUser = (req, res, next) => {
       password: hash, // записываем хеш в базу
     }))
     .then((user) => res.status(200).send({
-      data: {
+      user: {
         _id: user._id,
         name: user.name,
         about: user.about,
@@ -66,7 +66,7 @@ const updateUser = (req, res, next) => {
     .orFail(() => {
       throw new Error404('Запрашиваемый пользователь не найден');
     })
-    .then((user) => res.status(200).send({ data: user }))
+    .then((user) => res.status(200).send(user))
     .catch((err) => {
       if (err.name === 'CastError' || err.name === 'ValidationError') {
         next(new Error400('Переданы некорректные данные при редактировании пользователя'));
@@ -81,7 +81,7 @@ const updateAvatar = (req, res, next) => {
     .orFail(() => {
       throw new Error404('Запрашиваемый пользователь не найден');
     })
-    .then((user) => res.status(200).send({ data: user }))
+    .then((user) => res.status(200).send(user))
     .catch((err) => {
       if (err.name === 'CastError' || err.name === 'ValidationError') {
         next(new Error400('Переданы некорректные данные при обновлении аватара'));
