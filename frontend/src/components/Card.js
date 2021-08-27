@@ -35,16 +35,16 @@ function Card({ card, onCardLike, onCardDelete, onCardClick }) {
     <div className="elements__item">
       <img
         className="elements__image"
-        src={card.link? card.link : card.data.link} 
+        src={card.link} 
         alt={card.name} 
         onClick={handleClick}
       />
       <div className="elements__box">
-        <h2 className="elements__caption">{card.name? card.name : card.data.name}</h2>
+        <h2 className="elements__caption">{card.name}</h2>
         {/* <h2 className="elements__caption">{console.log(card.data? card.data : card)}</h2> */}
         <div className="elements__like-box">
           <button
-            // className={cardLikeButtonClassName}
+            className={cardLikeButtonClassName}
             type="button"
             aria-label="Мне нравится"
             onClick={handleLikeClick}
