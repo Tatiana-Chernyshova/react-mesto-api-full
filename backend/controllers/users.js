@@ -90,7 +90,6 @@ const updateAvatar = (req, res, next) => {
     });
 };
 
-
 const login = (req, res, next) => {
   const { email, password } = req.body;
 
@@ -108,58 +107,21 @@ const login = (req, res, next) => {
         });
     })
     .then((user) => {
-
       const token = jwt.sign(
         { _id: user._id },
         NODE_ENV === 'production' ? JWT_SECRET
           : 'some-secret-key',
         { expiresIn: '7d' },
       );
-//       // res.cookie('jwt', token, {
-//        //   maxAge: 3600000 * 24 * 7,
-//        //   httpOnly: true,
-//        //   sameSite: true,
-//        // })
+      //       // res.cookie('jwt', token, {
+      //        //   maxAge: 3600000 * 24 * 7,
+      //        //   httpOnly: true,
+      //        //   sameSite: true,
+      //        // })
       return res.send({ token });
     })
     .catch(next);
 };
-
-
-
-// const login = (req, res, next) => {
-//   const { email, password } = req.body;
-
-//   User.findOne({ email }).select('+password')
-//     .then((user) => {
-//       if (!user) {
-//         throw new Error401('Неправильные почта или пароль');
-//       }
-//       return bcrypt.compare(password, user.password)
-//         .then((matched) => {
-//           if (!matched) {
-//             throw new Error401('Неправильные почта или пароль');
-//           }
-//           return user;
-//           const token = jwt.sign(
-//             { _id: user._id },
-//             NODE_ENV === 'production' ? JWT_SECRET
-//               : 'some-secret-key',
-//             { expiresIn: '7d' },
-//           );
-//           // res.cookie('jwt', token, {
-//           //   maxAge: 3600000 * 24 * 7,
-//           //   httpOnly: true,
-//           //   sameSite: true,
-//           // })
-//           res.send({ token });
-//             .status(201).send({
-//               message: 'Аутентификация прошла успешно',
-//             });
-//         });
-//     })
-//     .catch(next);
-// };
 
 const aboutUser = (req, res, next) => {
   const { _id } = req.user;

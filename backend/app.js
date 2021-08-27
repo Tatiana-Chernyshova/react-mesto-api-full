@@ -21,21 +21,10 @@ const corsOptions = {
     'https://mrld.nomoredomains.rocks',
     'http://mrld.nomoredomains.rocks',
     'localhost:3000',
-    'http://192.168.1.177:3000',
     'http://localhost:3000',
   ],
   credentials: true,
 };
-
-
-
-
-
-// app.get('/', function (req, res, next) {
-//   res.json({msg: 'This is CORS-enabled for all origins!'})
-// });
-
-
 
 require('dotenv').config();
 
@@ -50,7 +39,6 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(helmet());
 app.use(limiter);
-// app.use(cors());
 app.use(cors(corsOptions));
 app.use(requestLogger);
 
@@ -66,4 +54,3 @@ app.use(errors());
 app.use(errorHandler);
 
 app.listen(3000);
-
