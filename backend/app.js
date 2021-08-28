@@ -38,9 +38,9 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 app.use(cookieParser());
 app.use(express.json());
 app.use(helmet());
-app.use(limiter);
 app.use(cors(corsOptions));
 app.use(requestLogger);
+app.use(limiter);
 
 app.get('/crash-test', () => {
   setTimeout(() => {
